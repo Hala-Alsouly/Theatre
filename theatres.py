@@ -119,9 +119,16 @@ def runTheatre(theatredf):
                     Rrow[5]= children * df['ChildCost'][j]
                     availableSeats-= children
 
-                
+                #Apply Sunday discount
+                if day==1:
+                    Rrow[4]= sundayDiscount(df['AdultCost'],adults)
+                    Rrow[5]= sundayDiscount(df['ChildCost'][j],children)
+                    Rrow[6]= sundayDiscount(df['AdultCost'][j],students)
+                    Rrow[7]= sundayDiscount(df['SeniorCost'][j],senior)
+                    
                 # call  snacks function to generate snacks
                 sales, snack = snacksF(df['Branch'][j], df['Theater'][j], df['seats'][j]-availableSeats)
+                
                 #add it to the dataframe
                 snacksDF =snacksDF.append({'Branch':snack[0],
                                         'Theater':snack[1],
@@ -153,7 +160,12 @@ def  calculateRevenues(visitordf, filter=False):
     if filter==False:
         df= visitordf[['AdultsR', 'ChildrenR', 'StudentsR', 'SeniorR', 'snacksSales']]
         df= df.sum()
-        print(df)
+        total= df.to_numpy().sum()
+
+    return total, df
+
+v,s, r = runTheatre(df)
+calculateRevenues(r)
 
 v,s, r = runTheatre(df)
 calculateRevenues(r)
