@@ -94,41 +94,42 @@ def runTheatre(theatredf):
                 #generate students sample from the previous adults
                 students= np.random.randint(low=0, high= adults//2)
                 row[6]= students
-                # 10% discount for students
-                Rrow[6]= discount(df['AdultCost'][j],students)
 
                 adults-= students
 
                 #generate senior sample from the previous adult
                 senior= np.random.randint(low=0, high= adults//4)
                 row[7]= senior
-                # 10% discount for senior on Friday
-                if day == 6:
-                    Rrow[7]= discount(df['SeniorCost'][j],senior)
-                else:
-                    Rrow[7]= senior * df['SeniorCost'][j]
 
                 adults-= senior
                 row[4]= adults
-                Rrow[4]= adults * df['AdultCost'][j]
 
                 # conditional statements for movies that children are allowed to watch
                 if( df['AgeRate'][j] == "PG" or df['AgeRate'][j] == "PG-13"):
                     children= np.random.randint(low=0, high= availableSeats)
                     row[5]= children
-                    Rrow[5]= children * df['ChildCost'][j]
                     availableSeats-= children
 
-                #Apply Sunday discount
+                #Apply 35% Sunday discount
                 if day==1:
-                    Rrow[4]= sundayDiscount(df['AdultCost'],adults)
+                    Rrow[4]= sundayDiscount(df['AdultCost'][j],adults)
                     Rrow[5]= sundayDiscount(df['ChildCost'][j],children)
                     Rrow[6]= sundayDiscount(df['AdultCost'][j],students)
                     Rrow[7]= sundayDiscount(df['SeniorCost'][j],senior)
+                else:
+                    Rrow[4]= adults * df['AdultCost'][j]
+                    Rrow[5]= children * df['ChildCost'][j]
+                    # 10% discount for students
+                    Rrow[6]= discount(df['AdultCost'][j],students)
+                    # 10% discount for senior on Friday
+                    if day == 6:
+                        Rrow[7]= discount(df['SeniorCost'][j],senior)
+                    else:
+                        Rrow[7]= senior * df['SeniorCost'][j]
                     
+                
                 # call  snacks function to generate snacks
                 sales, snack = snacksF(df['Branch'][j], df['Theater'][j], df['seats'][j]-availableSeats)
-                
                 #add it to the dataframe
                 snacksDF =snacksDF.append({'Branch':snack[0],
                                         'Theater':snack[1],
@@ -155,17 +156,16 @@ def runTheatre(theatredf):
  It is return a datafram of the generated info.
 '''
 
-def  calculateRevenues(visitordf, filter=False):
+def  calculateRevenues(revenuedf, filter=False):
     # if no filter selected then calculate the total revenue
     if filter==False:
-        df= visitordf[['AdultsR', 'ChildrenR', 'StudentsR', 'SeniorR', 'snacksSales']]
+        df= revenuedf[['AdultsR', 'ChildrenR', 'StudentsR', 'SeniorR', 'snacksSales']]
         df= df.sum()
         total= df.to_numpy().sum()
+        
 
     return total, df
 
 v,s, r = runTheatre(df)
-calculateRevenues(r)
-
-v,s, r = runTheatre(df)
-calculateRevenues(r)
+totalRevenues, dfTotalEach= calculateRevenues(r)
+print('Total Revenues= ', totalRevenues)
