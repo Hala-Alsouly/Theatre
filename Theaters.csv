@@ -1,18 +1,18 @@
-Branch,Theater,Type,seats,AdultCost,ChildCost,Movie,AgeRate,Shows
-Riyadh,1,VIP,60,20,15,Limitless,PG-13,3
-Riyadh,2,Standard,120,15,10,The Old Guard,R,2
-Riyadh,3,Standard,120,15,10,Raya and the Last Dragon,PG,4
-Riyadh,4,MAX,200,17,12,Rush Hour 3,PG-13,2
-Riyadh,5,Standard,120,15,10,Focus,16,1
-Dammam,1,VIP,50,20,15,Limitless,PG-13,3
-Dammam,2,Standard,120,15,10,The Old Guard,R,2
-Dammam,3,Standard,120,15,10,Raya and the Last Dragon,PG,4
-Dammam,4,MAX,180,17,12,Focus,16,2
-Jeddah,1,VIP,60,20,15,Limitless,PG-13,1
-Jeddah,2,Standard,135,15,10,The Old Guard,R,3
-Jeddah,3,Standard,135,15,10,Raya and the Last Dragon,PG,2
-Jeddah,4,MAX,180,17,12,Rush Hour 3,PG-13,4
-Jeddah,5,Standard,120,15,10,Focus,16,2
-Tabuk,1,VIP,50,20,15,Limitless,PG-13,1
-Tabuk,2,Standard,120,15,10,The Old Guard,R,3
-Tabuk,3,Standard,120,15,10,Raya and the Last Dragon,PG,3
+Branch,Theater,Type,seats,AdultCost,ChildCost,SeniorCost,Movie,AgeRate,Shows
+Riyadh,1,VIP,60,20,15,15,Limitless,PG-13,3
+Riyadh,2,Standard,120,15,10,10,The Old Guard,R,2
+Riyadh,3,Standard,120,15,10,10,Raya and the Last Dragon,PG,4
+Riyadh,4,MAX,200,17,12,12,Rush Hour 3,PG-13,2
+Riyadh,5,Standard,120,15,10,10,Focus,16,1
+Dammam,1,VIP,50,20,15,15,Limitless,PG-13,3
+Dammam,2,Standard,120,15,10,10,The Old Guard,R,2
+Dammam,3,Standard,120,15,10,10,Raya and the Last Dragon,PG,4
+Dammam,4,MAX,180,17,12,12,Focus,16,2
+Jeddah,1,VIP,60,20,15,15,Limitless,PG-13,1
+Jeddah,2,Standard,135,15,10,10,The Old Guard,R,3
+Jeddah,3,Standard,135,15,10,10,Raya and the Last Dragon,PG,2
+Jeddah,4,MAX,180,17,12,12,Rush Hour 3,PG-13,4
+Jeddah,5,Standard,120,15,10,10,Focus,16,2
+Tabuk,1,VIP,50,20,15,15,Limitless,PG-13,1
+Tabuk,2,Standard,120,15,10,10,The Old Guard,R,3
+Tabuk,3,Standard,120,15,10,10,Raya and the Last Dragon,PG,3
