@@ -139,7 +139,7 @@ def runTheatre(theatredf):
                                         'Icecream':snack[2][3],
                                         'Soft Drink':snack[2][4],
                                         'Frozen':snack[2][5]}, ignore_index=True)
-                Rrow[8]= sales  
+                Rrow[8]= float(sales) 
 
                 # append the geneated visitors to the dataframe
                 visitordf.loc[len(visitordf.index)] = row
@@ -151,21 +151,28 @@ def runTheatre(theatredf):
     return visitordf, snacksDF, revenusdf
 
 '''
- This function takes visitors dataframe, then generates random
- number of visitors for each branch, each theatre, each day, each show time.
- It is return a datafram of the generated info.
+ This function takes revenues dataframe, and a filter. It is returend a grouped data by filters.
+ If no filter applyed then it returns the sum for each revenues column
 '''
 
 def  calculateRevenues(revenuedf, filter=False):
     # if no filter selected then calculate the total revenue
+    df= revenuedf
     if filter==False:
         df= revenuedf[['AdultsR', 'ChildrenR', 'StudentsR', 'SeniorR', 'snacksSales']]
         df= df.sum()
-        total= df.to_numpy().sum()
+        print('total Revenues =', df.to_numpy().sum())
+    elif filter== 'Day':
+        df= df.groupby('Day').sum()
+    elif filter == 'Branch':
+        df= df.groupby('Branch').sum()
+    elif filter== 'Show':
+        df= df.groupby('Show').sum()
+
         
 
-    return total, df
+    return df
 
 v,s, r = runTheatre(df)
-totalRevenues, dfTotalEach= calculateRevenues(r)
-print('Total Revenues= ', totalRevenues)
+dfTotalEach= calculateRevenues(r,'Branch')
+print(dfTotalEach)
