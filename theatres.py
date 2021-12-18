@@ -16,7 +16,97 @@ import pandas as pd
 df= pd.read_csv('https://raw.githubusercontent.com/Hala-Alsouly/Theatre/main/Theaters.csv')
 df.head()
 
+# Movie List
+# DATA:         Movie Name  | Age Rating
+movies = [["Limitless", "PG-13"], 
+          ["Taken", "PG-13"], 
+          ["The Old Guard", "R"],
+          ["Mr. & Mrs. Smith", "PG-13"],
+          ["Focus", "+16"],
+          ["Raya and the Last Dragon", "PG"],
+          ["Rush Hour 3", "PG-13"]]
+# Branchs and size of the each branch based on the number of screens have
+#  DATA:       Branch Location  | VIP | Standard | MAX
+branchs =  [["Riyadh", 2, 5, 2], 
+            ["Dammam", 1, 3, 1], 
+            ["Jeddah", 1, 4, 1]]
+# Theater Types based on capacity and ticket cost
+# DATA:         Type Name  | Seats  | Adult Cost  | Child Cost | Senior Cost
+theatersType = [["VIP",      60,  40, 30, 30],
+                ["Standard", 120, 20, 15, 15],
+                ["MAX",      180, 25, 20, 15]]
 
+
+# This function generate a theaters data set for multiple branch by passing branchs and theatersTypes
+def generateDataSet(branchs, theatersType, movies):
+    # Initialize the dataset columns to empty state
+    branch_col = []
+    theater_num_col = []
+    type_col = []
+    seats_col = []
+    adult_cost_col = []
+    child_cost_col = []
+    senior_cost_col = []
+    movie_name_col = []
+    movie_rating_age_col = []
+    show_number_col = []
+    
+    # Loop over branchs and theatersType to create dataset
+    for row in range(len(branchs)):
+        
+        # Count theater number for each branch in total including all types of theater (VIP, Standard, Max)
+        countTheater = 0
+        screensCount = 0
+        for col in range(1,len(branchs[row])):
+            # total screen for each theater type and covert the string digit to integer number
+            screensCount = branchs[row][col]
+
+            # calculate the total of all screens for each branch
+            countTheater += screensCount
+
+            # Loading the data for each column
+            type_col        += [theatersType[col-1][0] for i in range(screensCount)]
+            seats_col       += [theatersType[col-1][1] for i in range(screensCount)]
+            adult_cost_col  += [theatersType[col-1][2] for i in range(screensCount)]
+            child_cost_col  += [theatersType[col-1][3] for i in range(screensCount)]
+            senior_cost_col += [theatersType[col-1][4] for i in range(screensCount)]
+        
+        # Create random movies assign for each theater
+        for movie in  range(countTheater):
+            # Get a random movie form Movies List in the top
+            random_movie_index = random.randrange(1, len(movies))
+
+            # Loading and assign random movies to each theater
+            movie_name_col.append(movies[random_movie_index][0])
+            movie_rating_age_col.append(movies[random_movie_index][1])
+            show_number_col.append(random.randrange(1, 4))
+
+        # List of theaters number for all branch
+        branch_col      += [branchs[row][0] for i in range(countTheater)]
+        theater_num_col += [i for i in range(1,countTheater+1)]
+        
+    dataset = {
+        "Branch"    : branch_col,
+        "Theater"   : theater_num_col,
+        "Type"      : type_col,
+        "seats"     : seats_col,
+        "AdultCost" : adult_cost_col,
+        "ChildCost" : child_cost_col,
+        "SeniorCost": senior_cost_col,
+        "Movie"     : movie_name_col,
+        "AgeRate"   : movie_rating_age_col,
+        "Shows"     : show_number_col
+    }
+    return dataset
+
+dataset = generateDataSet(branchs, theatersType, movies)
+df = pd.DataFrame(dataset)
+##############################################################################
+#functionality cost 
+def cost(visitors, theatreType):
+    employeeSalary= 5000
+
+#############################################################################
 ###### return number of students, revenue
 def discount(ticketCost,people):
     total = ticketCost * people
@@ -103,7 +193,8 @@ def runTheatre(theatredf):
 
                 adults-= senior
                 row[4]= adults
-
+                
+                children=0
                 # conditional statements for movies that children are allowed to watch
                 if( df['AgeRate'][j] == "PG" or df['AgeRate'][j] == "PG-13"):
                     children= np.random.randint(low=0, high= availableSeats)
@@ -176,3 +267,6 @@ def  calculateRevenues(revenuedf, filter=False):
 v,s, r = runTheatre(df)
 dfTotalEach= calculateRevenues(r,'Branch')
 print(dfTotalEach)
+
+############################################################################
+
